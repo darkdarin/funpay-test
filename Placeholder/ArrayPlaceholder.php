@@ -18,10 +18,10 @@ class ArrayPlaceholder implements PlaceholderInterface
         }
 
         $values = [];
-        foreach ($value as $identifier => $arrayValue) {
-            if (is_int($identifier)) {
-                $values[] = $this->modifyValueByType($arrayValue);
-            } else {
+        if (array_is_list($value)) {
+            $values = array_map($this->modifyValueByType(...), $value);
+        } else {
+            foreach ($value as $identifier => $arrayValue) {
                 $values[] = sprintf('`%s` = %s', $identifier, $this->modifyValueByType($arrayValue));
             }
         }
